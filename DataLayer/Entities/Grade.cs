@@ -10,7 +10,8 @@ public class Grade : BaseEntity {
 		get; set;
 	}
 	public DateTime DateCreated {
-		get; set;
+		get;
+		set;
 	}
 
 	public int StudentId {
