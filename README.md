@@ -1,2 +1,4 @@
-# random_ASP.NET_school_proj
-school homework
+# LaboratorAPI
+V2023
+
+Swagger Endpoint: "http://localhost:5000/api/swagger"
