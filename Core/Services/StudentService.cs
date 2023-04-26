@@ -5,95 +5,86 @@ using DataLayer.Entities;
 using DataLayer.Enums;
 using DataLayer.Mapping;
 
-namespace Core.Services
-{
-    public class StudentService
-    {
-        private readonly UnitOfWork unitOfWork;
+namespace Core.Services {
+	public class StudentService {
+		private readonly UnitOfWork unitOfWork;
 
-        public StudentService(UnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
-        }
+		public StudentService(UnitOfWork unitOfWork) {
+			this.unitOfWork = unitOfWork;
+		}
 
-        public StudentAddDto AddStudent(StudentAddDto payload)
-        {
-            if (payload == null) return null;
+		public StudentAddDto AddStudent(StudentAddDto payload) {
+			if(payload == null)
+				return null;
 
-            var existingClass = unitOfWork.Classes.GetById(payload.ClassId);
-            if (existingClass == null) return null;
+			var existingClass = unitOfWork.Classes.GetById(payload.ClassId);
+			if(existingClass == null)
+				return null;
 
-            var newStudent = new Student
-            {
-                FirstName = payload.FirstName,
-                LastName = payload.LastName,
-                DateOfBirth = payload.DateOfBirth,
-                Address = payload.Address,
+			var newStudent = new Student {
+				FirstName = payload.FirstName,
+				LastName = payload.LastName,
+				DateOfBirth = payload.DateOfBirth,
+				Address = payload.Address,
 
-                ClassId = existingClass.Id
-            };
+				ClassId = existingClass.Id
+			};
 
-            unitOfWork.Students.Insert(newStudent);
-            unitOfWork.SaveChanges();
+			unitOfWork.Students.Insert(newStudent);
+			unitOfWork.SaveChanges();
 
-            return payload;
-        }
+			return payload;
+		}
 
-        public List<Student> GetAll()
-        {
-            var results = unitOfWork.Students.GetAll();
+		public List<Student> GetAll() {
+			var results = unitOfWork.Students.GetAll();
 
-            return results;
-        }
+			return results;
+		}
 
-        public StudentDto GetById(int studentId)
-        {
-            var student = unitOfWork.Students.GetById(studentId);
+		public StudentDto GetById(int studentId) {
+			var student = unitOfWork.Students.GetById(studentId);
 
-            var result = student.ToStudentDto();
+			var result = student.ToStudentDto();
 
-            return result;
-        }
+			return result;
+		}
 
-        public bool EditName(StudentUpdateDto payload)
-        {
-            if (payload == null || payload.FirstName == null || payload.LastName == null)
-            {
-                return false;
-            }
+		public bool EditName(StudentUpdateDto payload) {
+			if(payload == null || payload.FirstName == null || payload.LastName == null) {
+				return false;
+			}
 
-            var result = unitOfWork.Students.GetById(payload.Id);
-            if (result == null) return false;
+			var result = unitOfWork.Students.GetById(payload.Id);
+			if(result == null)
+				return false;
 
-            result.FirstName = payload.FirstName;
-            result.LastName = payload.LastName;
+			result.FirstName = payload.FirstName;
+			result.LastName = payload.LastName;
 
-            return true;
-        }
+			return true;
+		}
 
-        public GradesByStudent GetGradesById(int studentId, CourseType courseType)
-        {
-            var studentWithGrades = unitOfWork.Students.GetByIdWithGrades(studentId, courseType);
-            
-            var result = new GradesByStudent(studentWithGrades);
+		public GradesByStudent GetGradesById(int studentId, CourseType courseType) {
+			var studentWithGrades = unitOfWork.Students.GetByIdWithGrades(studentId, courseType);
 
-            return result;
-        }
+			var result = new GradesByStudent(studentWithGrades);
 
-        public List<string> GetClassStudents(int classId)
-        {
-            var students = unitOfWork.Students.GetClassStudents(classId);
+			return result;
+		}
 
-            //var results = students.ToStudentDtos();
+		public List<string> GetClassStudents(int classId) {
+			var students = unitOfWork.Students.GetClassStudents(classId);
 
-            return students;
-        }
+			//var results = students.ToStudentDtos();
 
-        public Dictionary<int, List<Student>> GetGroupedStudents()
-        {
-            var results = unitOfWork.Students.GetGroupedStudents();
+			return students;
+		}
 
-            return results;
-        }
-    }
+		public Dictionary<int, List<Student>> GetGroupedStudents() {
+			var results = unitOfWork.Students.GetGroupedStudents();
+
+			return results;
+		}
+	}
 }
