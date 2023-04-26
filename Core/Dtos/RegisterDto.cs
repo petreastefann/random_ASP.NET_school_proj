@@ -1,5 +1,5 @@
 ﻿namespace Core.Dtos {
-	internal class RegisterDto {
+	public class RegisterDto {
 		public string Name {
 			get; set;
 		}

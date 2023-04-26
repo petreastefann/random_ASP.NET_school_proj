@@ -1,5 +1,5 @@
 ﻿namespace Core.Dtos {
-	internal class LoginDto {
+	public class LoginDto {
 		public string Email {
 			get; set;
 		}
